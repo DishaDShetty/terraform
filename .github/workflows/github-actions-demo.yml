@@ -10,7 +10,13 @@ on:
 
 jobs:
   terraform:
+    name: Infrastructure Deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./i
+    env:
+      TF_WORKSPACE: main
 
     steps:
       - name: Checkout code
