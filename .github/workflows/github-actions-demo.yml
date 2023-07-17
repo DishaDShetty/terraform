@@ -17,6 +17,7 @@ jobs:
         working-directory: ./i
     env:
       TF_WORKSPACE: main
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
     steps:
       - name: Checkout code
