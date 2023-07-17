@@ -20,11 +20,9 @@ jobs:
         run: npm install -g snyk
 
       - name: Run Snyk scan
-        run:  snyk auth
         env:
-           SNYK_TOKEN: 0decde59-5cd1-4aa4-a3dd-851bdef0c0fd
-          # ${{ secrets.SNYK_TOKEN }}
-                  # run: snyk test --all-projects
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test --all-projects
 
 
       - name: Set up Terraform
