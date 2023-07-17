@@ -22,7 +22,8 @@ jobs:
       - name: Run Snyk scan
         run:  snyk auth
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+           SNYK_TOKEN: 0decde59-5cd1-4aa4-a3dd-851bdef0c0fd
+          # ${{ secrets.SNYK_TOKEN }}
                   # run: snyk test --all-projects
 
 
