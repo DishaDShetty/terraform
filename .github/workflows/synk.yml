@@ -41,6 +41,7 @@ jobs:
         run: snyk iac test --report || true
         with:
           args: --sarif-file-output=snyk-code.sarif
+          sarif: true
 
 
       - name: Upload sarif file to Github Code Scanning
