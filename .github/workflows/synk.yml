@@ -39,9 +39,7 @@ jobs:
         # Use || true to not fail the pipeline.
       - name: Snyk IaC test and report
         run: snyk iac test --report || true
-        with:
-          args: --sarif-file-output=snyk-code.sarif
-          sarif: true
+             --sarif-file-output=snyk-code.sarif
 
 
       - name: Upload sarif file to Github Code Scanning
