@@ -2,8 +2,8 @@ name: Terraform with synk
 
 on:
   push:
-    branches:
-      - main
+    branches:    
+      - '**'        # matches every branch
   pull_request:
     branches:
       - main
