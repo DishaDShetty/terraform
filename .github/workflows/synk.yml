@@ -38,8 +38,7 @@ jobs:
         # Runs Snyk Infrastructure as Code (IaC) analysis and uploads result to Snyk.
         # Use || true to not fail the pipeline.
       - name: Snyk IaC test and report
-        run: snyk iac test --report 
-             --sarif-file-output=snyk-code.sarif
+        run: snyk iac test --sarif-file-output=snyk-code.sarif
              cat snyk-code.sarif || true
 
 
