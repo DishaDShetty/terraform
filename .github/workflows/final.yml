@@ -11,6 +11,23 @@ env:
   INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
 
 jobs:
+  tfsec-checks:
+      runs-on: ubuntu-latest
+      steps:
+    
+# Checkout Repository
+      - name : Check out Git Repository
+        uses: actions/checkout@v2
+      
+      - name: Install tfsec
+        run: |
+          curl -LJO https://github.com/tfsec/tfsec/releases/latest/download/tfsec-linux-amd64
+          chmod +x tfsec-linux-amd64
+          sudo mv tfsec-linux-amd64 /usr/local/bin/tfsec
+      
+        
+      - name: Run tfsec 
+        run: tfsec -m LOW .
   tflint-checks:
     runs-on: ubuntu-latest
     steps:
