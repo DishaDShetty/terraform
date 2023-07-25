@@ -11,6 +11,25 @@ env:
   INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
 
 jobs:
+  tflint-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git Repository
+        uses: actions/checkout@v2
+
+      - name: Install Terraform and TFLint
+        run: |
+          curl -LO "https://releases.hashicorp.com/terraform/1.0.3/terraform_1.0.3_linux_amd64.zip"
+          unzip terraform_1.0.3_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
+          curl -LJO "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip"
+          unzip tflint_linux_amd64.zip -d tflint_temp
+          sudo mv tflint_temp/tflint /usr/local/bin/
+          tflint --version
+
+      - name: Run TFLint
+        run: tflint --chdir=.
   owasp_zap_scan:
     runs-on: ubuntu-latest
     name: Scan the web application using OWASP
