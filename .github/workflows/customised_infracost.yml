@@ -1,0 +1,30 @@
+name: Infracost_custom
+
+on:
+  push:
+    branches:    
+      - '**'        # matches every branch
+  pull_request:
+    branches:
+      - main
+env:
+  INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+jobs:
+  infracost:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Infracost
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+      - name: Run Infracost for AWS EC2 instances
+        run: |
+          infracost breakdown --path /path/to/your/aws/infrastructure/code --format json --sync-usage-file
+
+      - name: Run Custom Policy
+        run: |
+          bash custom_policy.sh

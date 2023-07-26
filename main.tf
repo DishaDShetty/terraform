@@ -9,6 +9,18 @@ variable "domain_name" {
 provider "aws" {
   region = "${var.region}"
 }
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"  # Set the desired AMI ID for your region
+  instance_type = "t2.large"              # Set the instance type as needed
+
+  tags = {
+    Name = "Example EC2 Instance"
+  }
+}
+
+output "public_ip" {
+  value = aws_instance.example.public_ip
+}
 
 resource "aws_s3_bucket" "site" {
   bucket = "${var.domain_name}"
