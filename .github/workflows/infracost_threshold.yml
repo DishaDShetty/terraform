@@ -1,0 +1,34 @@
+name: Infracost
+
+on:
+  push:
+    branches:    
+      - '**'        # matches every branch
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  infracost:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Infracost
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
+
+      - name: Run Infracost
+        run: |
+          infracost breakdown --path /path/to/your/infrastructure/code --format json > infracost_output.json
+
+      - name: Check Cost Threshold
+        run: |
+          threshold=0
+          cost=$(cat infracost_output.json | jq '.[].total_monthly_cost | tonumber')
+          if (( $(echo "$cost > $threshold" | bc -l) )); then
+            echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
+            exit 1
+          fi
