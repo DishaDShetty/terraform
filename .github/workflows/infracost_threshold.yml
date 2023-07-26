@@ -24,6 +24,7 @@ jobs:
       - name: Run Infracost
         run: |
           infracost breakdown --path /path/to/your/infrastructure/code --format json > infracost_output.json
+          cat infracost_output.json
 
       - name: Check Cost Threshold
         run: |
