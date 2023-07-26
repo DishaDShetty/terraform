@@ -1,4 +1,4 @@
-name: Infracost
+name: Infracost_thershold
 
 on:
   push:
