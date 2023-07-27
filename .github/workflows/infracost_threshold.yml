@@ -33,13 +33,14 @@ jobs:
 
       - name: script Threshold
         run: |
-              #!/bin/bash
+            #!/bin/bash
 
-              # Use jq to extract the totalMonthlyCost value from the JSON object
-              totalMonthlyCost=$(jq '.totalMonthlyCost' infracost_output.json)
+            # Use jq to extract the totalMonthlyCost value from the JSON file
+            totalMonthlyCost=$(jq -r '.totalMonthlyCost' infracost_output.json)
 
-              # Print the value
-              echo "Total Monthly Cost: $totalMonthlyCost"
+            # Print the value without any additional text
+            echo "$totalMonthlyCost"
+
 
 
 
@@ -48,8 +49,7 @@ jobs:
       - name: Check Cost Threshold
         run: |
           threshold=0
-          cost=$(jq '.totalMonthlyCost' infracost_output.json)
-          numerical_value=$(echo "$cost" | grep -oE '[0-9]+\.[0-9]+')
+          cost=$(jq -r '.totalMonthlyCost' infracost_output.json)
           echo $cost $numerical_value
           if (( $(echo "$cost > $threshold" | bc -l) )); then
             echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
