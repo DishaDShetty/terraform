@@ -24,6 +24,7 @@ jobs:
       - name: Run Infracost for AWS EC2 instances
         run: |
           infracost breakdown --path . 
+          infracost breakdown --path . --sync-usage-file --usage-file infracost-usage.yml
           cat infracost-usage.yml
           realpath infracost-usage.yml
 
