@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Infracost for AWS EC2 instances
         run: |
-          infracost breakdown --path . --format json --sync-usage-file
+          infracost breakdown --path . --format json > infracost_output.json
 
       - name: Run Custom Policy
         run: |

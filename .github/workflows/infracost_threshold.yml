@@ -25,6 +25,7 @@ jobs:
         run: |
           infracost breakdown --path . --format json > infracost_output.json
           cat infracost_output.json
+          realpath infracost_output.json
 
       - name: Show Infracost Usage
         run: |
