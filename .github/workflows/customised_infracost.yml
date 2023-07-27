@@ -23,16 +23,14 @@ jobs:
 
       - name: Run Infracost for AWS EC2 instances
         run: |
-          cat infracost-usage.yml
-          realpath infracost-usage.yml
           infracost breakdown --path . --format json > infracost_output.json
 #infracost breakdown --path . --sync-usage-file --usage-file infracost-usage.yml
           #infracost breakdown --path . --format json --sync-usage-file --usage-file infracost-usage.yml
 
 
-      - name: Show Infracost Usage
-        run: |
-          cat infracost-usage.yml  # Display the contents of the usage file (optional)
+      # - name: Show Infracost Usage
+      #   run: |
+      #     cat infracost-usage.yml  # Display the contents of the usage file (optional)
 
 
       - name: Run Custom Policy
