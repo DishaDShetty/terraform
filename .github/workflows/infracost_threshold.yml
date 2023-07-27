@@ -26,6 +26,10 @@ jobs:
           infracost breakdown --path . --format json > infracost_output.json
           cat infracost_output.json
 
+      - name: Show Infracost Usage
+        run: |
+          cat infracost-usage.yml  # Display the contents of the usage file (optional)
+
       - name: Check Cost Threshold
         run: |
           threshold=0
