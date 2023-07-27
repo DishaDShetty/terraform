@@ -8,7 +8,6 @@ if [[ "$instance_types" == *"$threshold_instance_type"* ]]; then
   exit 1
 fi
 
-
 threshold=3
 cost=$(cat infracost-usage.yml | yq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
 
