@@ -49,6 +49,8 @@ jobs:
         run: |
           threshold=0
           cost=$(jq '.totalMonthlyCost' infracost_output.json)
+          numerical_value=$(echo "$cost" | grep -oE '[0-9]+\.[0-9]+')
+          echo $cost $numerical_value
           if (( $(echo "$cost > $threshold" | bc -l) )); then
             echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
             exit 1
