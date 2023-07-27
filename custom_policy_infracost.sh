@@ -1,7 +1,7 @@
 #!/bin/bash
 
 threshold_instance_type="large"
-instance_types=$(cat infracost_output.json | yq eval '.[] | select(.name | test("AWS EC2")) | .resources[].values.instance_type' -)
+instance_types=$(cat infracost_output.json | jq eval '.[] | select(.name | test("AWS EC2")) | .resources[].values.instance_type' -)
 
 if [[ "$instance_types" == *"$threshold_instance_type"* ]]; then
   echo "Error: Instances of type \"$threshold_instance_type\" found in the infrastructure. Policy violation."
@@ -9,7 +9,7 @@ if [[ "$instance_types" == *"$threshold_instance_type"* ]]; then
 fi
 
 threshold=3
-cost=$(cat infracost_output.json | yq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
+cost=$(cat infracost_output.json | jq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
 
 if (( $(echo "$cost > $threshold" | bc -l) )); then
   echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
