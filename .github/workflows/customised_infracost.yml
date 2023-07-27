@@ -27,4 +27,4 @@ jobs:
 
       - name: Run Custom Policy
         run: |
-          bash ./custom_policy.sh
+          bash custom_policy.sh
