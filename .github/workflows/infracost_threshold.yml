@@ -48,7 +48,7 @@ jobs:
       - name: Check Cost Threshold
         run: |
           threshold=0
-          cost=$(cat /home/runner/work/terraform/terraform/infracost_output.json | jq '.[].totalMonthlyCost | tonumber')
+          cost=$(jq '.totalMonthlyCost' infracost_output.json)
           if (( $(echo "$cost > $threshold" | bc -l) )); then
             echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
             exit 1
