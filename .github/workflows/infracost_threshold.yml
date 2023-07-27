@@ -35,14 +35,13 @@ jobs:
         run: |
             #!/bin/bash
 
-            # Use grep to find the line containing "totalMonthlyCost" and use cut to extract the value
-            totalMonthlyCost=$(grep -o '"totalMonthlyCost":[^,]*' infracost_output.json | cut -d':' -f2)
-
-            # Remove any leading or trailing whitespace from the extracted value
-            totalMonthlyCost=$(echo "$totalMonthlyCost" | tr -d '[:space:]')
+            # Use jq to extract the totalMonthlyCost value from the last dictionary in the JSON file
+            totalMonthlyCost=$(jq '. | map(.totalMonthlyCost) | last' infracost_output.json)
 
             # Print the value
             echo "Total Monthly Cost: $totalMonthlyCost"
+
+
 
 
       - name: Check Cost Threshold
