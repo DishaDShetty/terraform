@@ -35,8 +35,11 @@ jobs:
         run: |
             #!/bin/bash
 
-            # Read the totalMonthlyCost value from the JSON file using jq
-            totalMonthlyCost=$(jq '.[].totalMonthlyCost' /home/runner/work/terraform/terraform/infracost_output.json)
+            # Use grep to find the line containing "totalMonthlyCost" and use cut to extract the value
+            totalMonthlyCost=$(grep -o '"totalMonthlyCost":[^,]*' infracost_output.json | cut -d':' -f2)
+
+            # Remove any leading or trailing whitespace from the extracted value
+            totalMonthlyCost=$(echo "$totalMonthlyCost" | tr -d '[:space:]')
 
             # Print the value
             echo "Total Monthly Cost: $totalMonthlyCost"
