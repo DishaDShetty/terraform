@@ -31,6 +31,17 @@ jobs:
         run: |
           cat /home/runner/work/terraform/terraform/infracost_output.json  # Display the contents of the usage file (optional)
 
+      - name: script Threshold
+        run: |
+            #!/bin/bash
+
+            # Read the totalMonthlyCost value from the JSON file using jq
+            totalMonthlyCost=$(jq '.[].totalMonthlyCost' /home/runner/work/terraform/terraform/infracost_output.json)
+
+            # Print the value
+            echo "Total Monthly Cost: $totalMonthlyCost"
+
+
       - name: Check Cost Threshold
         run: |
           threshold=0
