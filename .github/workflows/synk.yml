@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  synk:
+ synk: 
   # permissions are needed or else writing will fail
     permissions:
           contents: read # for actions/checkout to fetch code
