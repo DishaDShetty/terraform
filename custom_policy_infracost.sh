@@ -16,7 +16,7 @@
 #   exit 1
 # fi
 # Use jq to parse JSON output and extract the totalMonthlyCost value for AWS EC2 instances
-ec2Cost=$(jq '.[] | select(.name | test("AWS EC2")) | .totalMonthlyCost' infracost_output.json)
+ec2Cost=$(jq '.[] | select(.name | test("Example EC2 Instance"")) | .monthlyCost' infracost_output.json)
 
 # Remove commas from the numeric value (if any)
 ec2Cost=$(echo "$ec2Cost" | tr -d ',')
