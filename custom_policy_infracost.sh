@@ -17,7 +17,7 @@
 # fi
 # Use jq to parse JSON output and extract the totalMonthlyCost value for AWS EC2 instances
 #cat /home/runner/work/terraform/terraform/infracost_output.json
-ec2Cost=$(jq '.projects[0].pastBreakdown.resources[]' infracost_output.json )
+ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") ' infracost_output.json )
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance" and .tags.Name == "Example EC2 Instance") | .monthlyCost' infracost_output.json)
 
 
