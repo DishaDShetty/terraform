@@ -5,7 +5,7 @@
 
 # Get the list of S3 bucket names from Terraform files
 bucket_names=$(grep -E -o 'resource "aws_s3_bucket" "[^"]+"' *.tf | awk '{print $3}' | sed 's/"//g')
-echo bucket_names
+echo $bucket_names
 # Check each bucket name against the naming convention
 for name in $bucket_names; do
   if ! echo "$name" | grep -qE '^my-company-[a-z0-9.-]{3,63}-data$'; then
