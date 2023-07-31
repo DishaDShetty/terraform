@@ -1,5 +1,3 @@
-version = "0.5"
-
 policy "s3_bucket_naming_convention" {
   source = "github.com/terraform-linters/tflint-ruleset-aws"
 
