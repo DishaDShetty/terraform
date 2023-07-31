@@ -1,16 +1,19 @@
-policy "s3_bucket_naming_convention" {
-  source = "github.com/terraform-linters/tflint-ruleset-aws"
+module "bucket_naming_convention" {
+  enabled = true
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "2.0.0"
+}
 
-  rule "AWS01" {
-    enabled = true
-    provider = "aws"
-    resource_types = ["aws_s3_bucket"]
-    condition = <<EOT
-      all {
-        startswith("my-app-", lower(var.name))
-        regex("^[-a-zA-Z0-9]+$", var.name)
-      }
-    EOT
-    message = "S3 bucket name should start with 'my-app-' and contain only alphanumeric characters and hyphens."
-  }
+rule {
+  enabled = true
+
+  # Ensure the resource type is a "module"
+  # (This can be set to "module" to enforce the naming convention only on module resources)
+  resource_types = ["module"]
+
+  # Regular expression to enforce the naming convention
+  pattern = "^module\\.bucket_naming_convention$"
+
+  # Custom error message shown when the naming convention is violated
+  message = "S3 bucket naming convention violation. Module should be named 'bucket_naming_convention'."
 }
