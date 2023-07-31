@@ -48,9 +48,6 @@ jobs:
           ./custom_policy.sh
 
       - name: Run TFLint
-        run: tflint --config custom_policy.hcl
-
-      - name: Run TFLint
         run: tflint -f compact
 
       - name: Run TFLint
