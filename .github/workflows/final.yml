@@ -46,6 +46,9 @@ jobs:
           tflint --version
 
       - name: Run TFLint
+        run: tflint -f compact
+
+      - name: Run TFLint
         run: tflint --chdir=.
   owasp_zap_scan:
     runs-on: ubuntu-latest
