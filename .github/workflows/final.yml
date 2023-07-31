@@ -44,9 +44,12 @@ jobs:
           unzip tflint_linux_amd64.zip -d tflint_temp
           sudo mv tflint_temp/tflint /usr/local/bin/
           tflint --version
+          chmod +x custom_policy.sh
+          ./custom_policy.sh
+
       - name: Run TFLint
         run: tflint --config custom_policy.hcl
-        
+
       - name: Run TFLint
         run: tflint -f compact
 
