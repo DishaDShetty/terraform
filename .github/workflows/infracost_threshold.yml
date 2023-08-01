@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Infracost
         run: |
-          infracost breakdown --path . --format json > infracost_output.json
+          infracost breakdown --path ./path.tf --format json > infracost_output.json
           cat infracost_output.json
           realpath infracost_output.json
 
@@ -44,6 +44,11 @@ jobs:
 
 
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
 
 
       - name: Check Cost Threshold
@@ -55,3 +60,5 @@ jobs:
             echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
             exit 1
           fi
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
