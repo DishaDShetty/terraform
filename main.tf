@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "my-co" {
-  bucket = "my-com"  # Change this to a unique bucket name
+  bucket = "my-company-disha-data"  # Change this to a unique bucket name
 
   acl    = "private"  # Access control list for the bucket
 
