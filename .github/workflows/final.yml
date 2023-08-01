@@ -47,10 +47,10 @@ jobs:
 
       - name: Run TFLint
         run: |
-            chmod +x custom_policy.sh
-            ./custom_policy.sh
+            chmod +x custom_policy_tflint.sh
+            ./custom_policy_tflint.sh
 
-      - name: Run TFLint
+      - name: Run TFLint default
         run: tflint --chdir=.
   owasp_zap_scan:
     runs-on: ubuntu-latest
