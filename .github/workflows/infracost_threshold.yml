@@ -42,7 +42,11 @@ jobs:
             echo "$totalMonthlyCost"
 
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
 
+      - name: Terraform Init
+        run: terraform init
 
 
       - name: Check Cost Threshold
@@ -51,7 +55,7 @@ jobs:
           cost=$(jq -r '.totalMonthlyCost' infracost_output.json)
           echo $cost $numerical_value
           if (( $(echo "$cost > $threshold" | bc -l) )); then
-            echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
+            echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold and cannot proceed further"
             exit 1
           fi
       - name: Terraform Plan
