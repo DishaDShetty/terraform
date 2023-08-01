@@ -44,12 +44,6 @@ jobs:
 
 
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Init
-        run: terraform init
-
 
       - name: Check Cost Threshold
         run: |
