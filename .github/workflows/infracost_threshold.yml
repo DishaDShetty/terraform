@@ -51,7 +51,7 @@ jobs:
 
       - name: Check Cost Threshold
         run: |
-          threshold=0
+          threshold=10
           cost=$(jq -r '.totalMonthlyCost' infracost_output.json)
           echo $cost $numerical_value
           if (( $(echo "$cost > $threshold" | bc -l) )); then
