@@ -25,14 +25,15 @@ jobs:
         run: |
           infracost breakdown --path . --format json > infracost_output.json
           realpath infracost_output.json
-#infracost breakdown --path . --sync-usage-file --usage-file infracost-usage.yml
-          #infracost breakdown --path . --format json --sync-usage-file --usage-file infracost-usage.yml
 
+      - name: Extract Resource Costs
+        run: |
+          # Extract the cost of each resource
+          cat infracost_output.json | jq -r '.projects[0].resources[] | "\(.name): \(.monthly_cost)"' > resource_costs.txt
 
-      # - name: Show Infracost Usage
-      #   run: |
-      #     cat infracost-usage.yml  # Display the contents of the usage file (optional)
-
+      - name: Display Resource Costs
+        run: |
+          cat resource_costs.txt
 
       - name: Run Custom Policy
         run: |
