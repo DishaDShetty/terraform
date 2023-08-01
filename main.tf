@@ -14,24 +14,12 @@ resource "aws_s3_bucket" "my-co" {
     Environment = "Dev"
   }
 }
-resource "aws_apprunner_service" "example_app_runner" {
-  name        = "example-apprunner-service"
-  repository {
-    # Replace the following with the details of your container image
-    image_repository_type = "ECR"  # Use "ECR" if you are using Amazon ECR, "ECR_PUBLIC" for public images, or "ECR_PRIVATE" for private images.
-    image_uri             = "your-ecr-repo-uri:latest"  # Replace with your container image URI
-  }
-  
-  # Optionally, you can define a custom domain mapping for the App Runner service
-  custom_domain {
-    domain_name = "example.domain.com"
-    enable_https = true
-  }
+resource "aws_instance" "example_instance" {
+  ami           = "ami-0c55b159cbfafe1f0"  # Replace with the AMI ID of the desired instance image
+  instance_type = "t2.micro"  # Replace with the instance type you want to use
 
-  # You can define environment variables and other configuration for your container here
-  source_configuration {
-    authentication_configuration {
-      access_role_arn = "arn:aws:iam::123456789012:role/service-role/AppRunner-YourAppRunnerServiceRole-123456789012"  # Replace with the ARN of the role that grants App Runner permission to access your ECR repository
-    }
+  # Optional: Define tags to label your instance (key-value pairs)
+  tags = {
+    Name = "Example Instance"
   }
 }
