@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Infracost
         run: |
-          infracost breakdown --path ./path.tf --format json > infracost_output.json
+          infracost breakdown --path ./infracost --format json > infracost_output.json
           cat infracost_output.json
           realpath infracost_output.json
 
