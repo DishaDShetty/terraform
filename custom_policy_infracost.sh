@@ -22,10 +22,7 @@ threshold=3
 cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost'> resource_costs.txt
 # "\(.name): \(.monthlyCost)" ' > resource_costs.txt
 cat resource_costs.txt
-for line in $(cat resource_costs.txt)
-do
-    echo "$line"    #printing the line; perform any other operation on line variable
-done
+
 # if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
 #   echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
 #   exit 1
