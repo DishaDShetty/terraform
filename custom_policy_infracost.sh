@@ -20,7 +20,7 @@ threshold=3
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
 #$(jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)"' infracost_output.json)
 cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)" ' > resource_costs.txt
-
+echo resource_costs.txt
 for line in $(cat resource_costs.txt)
 do
     echo "$line"    #printing the line; perform any other operation on line variable
