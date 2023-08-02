@@ -9,7 +9,7 @@
 # fi
 
 threshold=3
-ec2 = (jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json)
+ec2 = jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json
 echo $ec2
 # cost=$(cat infracost_output.json | jq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
 
