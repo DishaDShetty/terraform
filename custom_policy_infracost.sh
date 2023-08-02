@@ -8,7 +8,7 @@
 #   exit 1
 # fi
 
-# threshold=3
+threshold=3
 # cost=$(cat infracost_output.json | jq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
 
 # if (( $(echo "$cost > $threshold" | bc -l) )); then
@@ -18,14 +18,12 @@
 # Use jq to parse JSON output and extract the totalMonthlyCost value for AWS EC2 instances
 #cat /home/runner/work/terraform/terraform/infracost_output.json
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
-ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] ' infracost_output.json)
+name_Cost=$(jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)"' infracost_output.json)
 echo $ec2Cost
-
-
-
-
-
-
+# if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
+#   echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
+#   exit 1
+# fi
 
 
 
