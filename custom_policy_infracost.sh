@@ -9,6 +9,8 @@
 # fi
 
 threshold=3
+ec2 = (jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json)
+echo $ec2
 # cost=$(cat infracost_output.json | jq eval '.[] | select(.name | test("AWS EC2")) | .monthlyCost.value' -)
 
 # if (( $(echo "$cost > $threshold" | bc -l) )); then
@@ -19,8 +21,25 @@ threshold=3
 #cat /home/runner/work/terraform/terraform/infracost_output.json
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
 #$(jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)"' infracost_output.json)
-ec2_cost = (cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost')
-echo $ec2_cost
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost'> resource_costs.txt
+
 
 
 
