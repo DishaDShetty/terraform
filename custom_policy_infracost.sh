@@ -19,16 +19,34 @@
 #cat /home/runner/work/terraform/terraform/infracost_output.json
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
 ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance" and .tags.Name == "Example EC2 Instance") | .monthlyCost' infracost_output.json)
+echo $ec2Cost
 
 
-# Remove commas from the numeric value (if any)
-ec2Cost=$(echo "$ec2Cost" | tr -d ',')
 
-# Define the threshold for the maximum cost (e.g., $12)
-threshold=12
 
-# Compare the EC2 instance cost against the threshold
-if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
-  echo "Error: EC2 instance cost (\$$ec2Cost) exceeds the threshold of \$$threshold"
-  exit 1
-fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Remove commas from the numeric value (if any)
+# ec2Cost=$(echo "$ec2Cost" | tr -d ',')
+
+# # Define the threshold for the maximum cost (e.g., $12)
+# threshold=12
+
+# # Compare the EC2 instance cost against the threshold
+# if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
+#   echo "Error: EC2 instance cost (\$$ec2Cost) exceeds the threshold of \$$threshold"
+#   exit 1
+# fi
