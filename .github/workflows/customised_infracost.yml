@@ -30,7 +30,7 @@ jobs:
         run: |
           cat infracost_output.json
           # Extract the cost of each resource
-          cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources | "\(.name): \(.monthly_cost)" ' > resource_costs.txt
+          cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthly_cost)" ' > resource_costs.txt
 
       - name: Display Resource Costs
         run: |
