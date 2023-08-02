@@ -19,7 +19,7 @@ threshold=3
 #cat /home/runner/work/terraform/terraform/infracost_output.json
 #ec2Cost=$(jq '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
 name_Cost=$(jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)"' infracost_output.json)
-echo $ec2Cost
+echo $name_Cost
 # if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
 #   echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold"
 #   exit 1
