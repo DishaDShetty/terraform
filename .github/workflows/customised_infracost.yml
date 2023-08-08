@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Infracost for AWS EC2 instances
         run: |
-          infracost breakdown --path . --format json > infracost_output.json
+          #infracost breakdown --path . --format json > infracost_output.json
           realpath infracost_output.json
           infracost breakdown --format json | jq --arg threshold 0 '.[].resources[] | select(.hourly_cost > ($threshold | tonumber))'
 
