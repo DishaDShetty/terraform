@@ -25,13 +25,14 @@ jobs:
         run: |
           infracost breakdown --path . --format json > infracost_output.json
           realpath infracost_output.json
+          infracost breakdown --format json | jq --arg threshold 0 '.[].resources[] | select(.hourly_cost > ($threshold | tonumber))'
 
       - name: Extract Resource Costs
         run: |
           cat infracost_output.json
           # Extract the cost of each resource
-          #cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)" ' > resource_costs.txt
-          infracost breakdown --format json | jq --arg threshold 0 '.[].resources[] | select(.hourly_cost > ($threshold | tonumber))'
+          cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)" ' > resource_costs.txt
+
 
 
       - name: Display Resource Costs
