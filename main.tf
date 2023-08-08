@@ -23,3 +23,25 @@ resource "aws_instance" "example_instance" {
     Name = "Example Instance"
   }
 }
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"
+  
+  tags = {
+    Name = "MyVPC"
+  }
+}
+
+resource "aws_subnet" "my_subnet" {
+  count = 2
+  
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = "10.0.${count.index}.0/24"
+  
+  availability_zone = "us-east-1a"  # Change this to your desired availability zone
+  
+  tags = {
+    Name = "MySubnet-${count.index}"
+  }
+}
+
+
