@@ -16,10 +16,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install CloudSploit CLI
+      - name: Download CloudSploit CLI
         run: |
-          npm install -g cloudsploit-cli  # Install the CloudSploit CLI globally
-          cloudsploit-cli --version       # Verify installation
+          # Download the CloudSploit CLI binary
+          curl -o cloudsploit https://url-to-cloudsploit-binary
+          chmod +x cloudsploit
 
       # - name: Run CloudSploit Scan
       #   run: |
