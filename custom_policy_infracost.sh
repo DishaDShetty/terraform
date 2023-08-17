@@ -17,16 +17,16 @@ threshold=3
 ec2Cost=$(jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_instance") | .monthlyCost' infracost_output.json )
 s3Cost=$(jq -r '.projects[0].pastBreakdown.resources[] | select(.resourceType == "aws_s3_bucket") | .monthlyCost' infracost_output.json )
 
-# echo $ec2Cost
-# if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
-#   echo "Error: Estimated EC2 cost ($ec2Cost) exceeds the threshold of $threshold"
-#   exit 1
-# fi
-echo $s3Cost
-if (( $(echo "$s3Cost > $threshold" | bc -l) )); then
-  echo "Error: Estimated EC2 cost ($s3Cost) exceeds the threshold of $threshold"
+echo $ec2Cost
+if (( $(echo "$ec2Cost > $threshold" | bc -l) )); then
+  echo "Error: Estimated EC2 cost ($ec2Cost) exceeds the threshold of $threshold"
   exit 1
 fi
+# echo $s3Cost
+# if (( $(echo "$s3Cost > $threshold" | bc -l) )); then
+#   echo "Error: Estimated EC2 cost ($s3Cost) exceeds the threshold of $threshold"
+#   exit 1
+# fi
 #$(jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)"' infracost_output.json)
 
 
