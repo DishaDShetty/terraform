@@ -14,7 +14,6 @@ jobs:
   tfsec-checks:
       runs-on: ubuntu-latest
       steps:
-    
 # Checkout Repository
       - name : Check out Git Repository
         uses: actions/checkout@v2
@@ -25,9 +24,9 @@ jobs:
           chmod +x tfsec-linux-amd64
           sudo mv tfsec-linux-amd64 /usr/local/bin/tfsec
       
-        
       - name: Run tfsec 
         run: tfsec -m LOW .
+
   tflint-checks:
     runs-on: ubuntu-latest
     steps:
@@ -36,10 +35,6 @@ jobs:
 
       - name: Install Terraform and TFLint
         run: |
-          curl -LO "https://releases.hashicorp.com/terraform/1.0.3/terraform_1.0.3_linux_amd64.zip"
-          unzip terraform_1.0.3_linux_amd64.zip
-          sudo mv terraform /usr/local/bin/
-          terraform --version
           curl -LJO "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_linux_amd64.zip"
           unzip tflint_linux_amd64.zip -d tflint_temp
           sudo mv tflint_temp/tflint /usr/local/bin/
@@ -52,6 +47,7 @@ jobs:
 
       - name: Run TFLint default
         run: tflint --chdir=.
+
   owasp_zap_scan:
     runs-on: ubuntu-latest
     name: Scan the web application using OWASP
@@ -60,6 +56,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: main
+
       - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.7.0
         with:
@@ -68,10 +65,9 @@ jobs:
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
 
-  infracost:
+  infracost-customised-threshold:
     name: Check Infrastructure Costs
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -82,7 +78,38 @@ jobs:
           sudo mv infracost-linux-amd64 /usr/local/bin/infracost
 
       - name: Run Infracost
-        run: infracost breakdown --path . 
+        run: infracost breakdown --path . --format json > infracost_output.json
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Check Cost Threshold
+        run: |
+          threshold=5
+          cost=$(jq -r '.totalMonthlyCost' infracost_output.json)
+          echo $cost $numerical_value
+          if (( $(echo "$cost > $threshold" | bc -l) )); then
+            echo "Error: Estimated cost ($cost) exceeds the threshold of $threshold and cannot proceed further"
+            exit 1
+          fi
+
+      - name: Extract Resource Costs
+        run: |
+          cat infracost_output.json | jq -r '.projects[0].pastBreakdown.resources[] | "\(.name): \(.monthlyCost)" ' > resource_costs.txt
+
+      - name: Display Resource Costs
+        run: |
+          cat resource_costs.txt
+
+      - name: Run Custom Policy
+        run: |
+          bash custom_policy_infracost.sh
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
   synk: 
     # permissions are needed or else writing will fail
@@ -96,8 +123,6 @@ jobs:
       env:
         TF_WORKSPACE: main
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-
       steps:
         - uses: actions/checkout@v3
         - name: Set up Snyk CLI to check for security issues
@@ -109,7 +134,6 @@ jobs:
           # Use || true to not fail the pipeline.
         - name: Snyk IaC test and report
           run: snyk iac test --report --sarif-file-output=snyk-code.sarif || true
-
 
         - name: check the contents .sarif file
           run: cat snyk-code.sarif 
